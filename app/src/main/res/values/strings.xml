@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">MyApplicationFrame</string>
+
+    <string name="know">我知道了</string>
+    <string name="request_succeed">Request is succeed</string>
+    <string name="request_method_not_allow">The request method was not server allows.</string>
+    <string name="request_original_result">Response code: %1$d\n Time consuming: %2$dms.</string>
+</resources>

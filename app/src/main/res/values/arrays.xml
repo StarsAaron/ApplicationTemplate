@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="select_printer_type">
+        <item>t1_80mm 热敏</item>
+        <item>t2_58mm 热敏</item>
+        <item>t3_76mm 9针</item>
+        <item>t4_76mm 6针</item>
+        <item>t5_76mm 24/12针</item>
+        <item>t6_50列 24针</item>
+        <item>t7_80列 24针</item>
+        <item>t8_106列 24针</item>
+        <item>t9_136列 24针</item>
+        <item>t10_PP76D</item>
+    </string-array>
+</resources>

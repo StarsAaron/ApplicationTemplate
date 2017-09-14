@@ -1,0 +1,98 @@
+mRecyAdapter = new CommonAdapter(this,R.layout.item_listview,sStringList){
+            @Override
+            protected void convert(MyViewHolder holder, Object o, int position) {
+                ((TextView)holder.getView(R.id.tv_item)).setText(sStringList.get(position));
+            }
+        };
+        mRecyclerView.setAdapter(mRecyAdapter);
+        //拖动
+        ItemTouchHelperCallback itemTouchHelperCallback = new ItemTouchHelperCallback(mRecyAdapter);
+        final ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchHelperCallback);
+        itemTouchHelper.attachToRecyclerView(mRecyclerView);
+        //点击
+        mRecyclerView.addOnItemTouchListener(new OnRecyclerItemClickListener(mRecyclerView) {
+            @Override
+            public void onItemClick(MyViewHolder viewHolder) {
+                String tvString = ((TextView)viewHolder.getView(R.id.tv_item)).getText().toString();
+                Toast.makeText(RecyclerViewActivity.this, "逗逗~" + tvString, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onLongClick(MyViewHolder viewHolder) {
+                Toast.makeText(RecyclerViewActivity.this, "" + "讨厌，不要老是摸人家啦...", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+ （2）多种ItemViewType(ListView与其使用方式一致)
+
+ 对于多中itemviewtype的处理参考：https://github.com/sockeqwe/AdapterDelegates ，具有极高的扩展性。
+
+ MultiItemTypeAdapter adapter = new MultiItemTypeAdapter(this,mDatas);
+ adapter.addItemViewDelegate(new MsgSendItemDelagate());
+ adapter.addItemViewDelegate(new MsgComingItemDelagate());
+
+ 每种Item类型对应一个ItemViewDelegete，例如：
+ public class MsgComingItemDelagate implements ItemViewDelegate<ChatMessage> {
+    @Override
+    public int getItemViewLayoutId() {
+        return R.layout.main_chat_from_msg;
+    }
+
+    @Override
+    public boolean isForViewType(ChatMessage item, int position) {
+        return item.isComMeg();
+    }
+
+    @Override
+    public void convert(ViewHolder holder, ChatMessage chatMessage, int position) {
+        holder.setText(R.id.chat_from_content, chatMessage.getContent());
+        holder.setText(R.id.chat_from_name, chatMessage.getName());
+        holder.setImageResource(R.id.chat_from_icon, chatMessage.getIcon());
+    }
+}
+
+
+(3) 添加HeaderView、FooterView
+
+mHeaderAndFooterWrapper = new HeaderAndFooterWrapper(mAdapter);
+
+TextView t1 = new TextView(this);
+t1.setText("Header 1");
+TextView t2 = new TextView(this);
+t2.setText("Header 2");
+mHeaderAndFooterWrapper.addHeaderView(t1);
+mHeaderAndFooterWrapper.addHeaderView(t2);
+
+mRecyclerView.setAdapter(mHeaderAndFooterWrapper);
+
+类似装饰者模式，直接将原本的adapter传入，初始化一个HeaderAndFooterWrapper对象，然后调用相关API添加。
+(4) 添加LoadMore
+
+mLoadMoreWrapper = new LoadMoreWrapper(mOriginAdapter);
+mLoadMoreWrapper.setLoadMoreView(R.layout.default_loading);
+mLoadMoreWrapper.setOnLoadMoreListener(new LoadMoreWrapper.OnLoadMoreListener()
+{
+@Override public void onLoadMoreRequested()
+{
+}
+});
+
+mRecyclerView.setAdapter(mLoadMoreWrapper);
+
+直接将原本的adapter传入，初始化一个LoadMoreWrapper对象，然后调用相关API即可。
+(5)添加EmptyView
+
+mEmptyWrapper = new EmptyWrapper(mAdapter);
+mEmptyWrapper.setEmptyView(R.layout.empty_view);
+
+mRecyclerView.setAdapter(mEmptyWrapper );
+
+直接将原本的adapter传入，初始化一个EmptyWrapper对象，然后调用相关API即可。
+
+支持链式添加多种功能，示例代码：
+
+mAdapter = new EmptyViewWrapper(
+new LoadMoreWrapper(
+new HeaderAndFooterWrapper(mOriginAdapter)));
+
+

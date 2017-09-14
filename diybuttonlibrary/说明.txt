@@ -1,0 +1,10 @@
+#自定义Button样式
+FancyButton facebookLoginBtn = FancyButton.init(this)
+                .setText("Login with Facebook")
+                .setDefaultBackgroundColor(Color.parseColor("#3b5998"))
+                .setFocusBackgroundColor(Color.parseColor("#5474b8"))
+                .setTextSize(17)
+                .setRadius(5)
+                .setIconResource("\uf082")
+                .setIconPosition(FancyButton.POSITION_LEFT)
+                .setFontIconSize(30);

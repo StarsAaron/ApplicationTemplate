@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/ApplicationTemplate.iml" filepath="$PROJECT_DIR$/ApplicationTemplate.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/customdialoglibrary/customdialoglibrary.iml" filepath="$PROJECT_DIR$/customdialoglibrary/customdialoglibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/diybuttonlibrary/diybuttonlibrary.iml" filepath="$PROJECT_DIR$/diybuttonlibrary/diybuttonlibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nicedialog/nicedialog.iml" filepath="$PROJECT_DIR$/nicedialog/nicedialog.iml" />
+      <module fileurl="file://$PROJECT_DIR$/utilslibrary/utilslibrary.iml" filepath="$PROJECT_DIR$/utilslibrary/utilslibrary.iml" />
+    </modules>
+  </component>
+</project>

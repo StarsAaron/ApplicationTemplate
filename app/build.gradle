@@ -1,0 +1,127 @@
+apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
+def releaseTime() {
+    return new Date().format("yyyyMMddHHmmss", TimeZone.getTimeZone("GMT+08:00"))
+}
+//签名信息文件
+//Properties props = new Properties()
+//props.load(new FileInputStream(file("sign.properties")))
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+    defaultConfig {
+        applicationId "com.aaron.applicationtemplate"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+    }
+
+    //签名配置
+//    signingConfigs {
+//        release {
+//            storeFile file(RELEASE_STORE_FILE)
+//            keyAlias RELEASE_KEY_ALIAS
+//            keyPassword RELEASE_KEY_PASSWORD
+//            storePassword RELEASE_STORE_PASSWORD
+//        }
+//        debug{}
+//    }
+
+    buildTypes {
+        // buildConfigField 一共有3个参数，
+        // 第一个是数据类型，和Java的类型是对等的；
+        // 第二个参数是常量名，这里是API_SERVER_URL；
+        // 第三个参数就是你要配置的值。
+        release {
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            //是否启用zipAlign
+            zipAlignEnabled true
+            // 移除无用的resource文件
+            shrinkResources true
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//            signingConfig signingConfigs.release
+        }
+        debug {
+            buildConfigField "boolean", "LOG_DEBUG", "true"
+            minifyEnabled false
+            zipAlignEnabled false
+            shrinkResources false
+//            signingConfig signingConfigs.debug
+        }
+    }
+
+    //执行lint检查，有任何的错误或者警告提示，都会终止构建，我们可以将其关掉。
+//    lintOptions {
+//        abortOnError false
+//    }
+
+    //如果工程包含jniLibs文件夹，需要包含进来工程构建
+//    sourceSets{
+//        main {
+//            jni.srcDirs = []
+//            jniLibs.srcDirs = ['libs']
+//        }
+//    }
+
+    //动态修改生成的apk文件名
+    //动态修改生成的apk文件名
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            if (output.outputFile != null && output.outputFile.name.endsWith('.apk')
+                    && 'release'.equals(variant.buildType.name)) {
+                // 输出apk名称为:框架_v版本_release_HHmmss.apk
+                def apkFile = new File(
+                        output.outputFile.getParent(),
+                        "框架_v${variant.versionName}.${releaseTime()}.apk")
+                output.outputFile = apkFile
+            }
+        }
+    }
+
+    //Lambda 表达式
+//    compileOptions {
+//        sourceCompatibility JavaVersion.VERSION_1_8
+//        targetCompatibility JavaVersion.VERSION_1_8
+//    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile "com.android.support:appcompat-v7:$rootProject.v7supportLibraryVersion"
+    compile "com.android.support:support-v13:$rootProject.v13supportLibraryVersion"
+    //retrofit2
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    //okhttp3
+    compile 'com.squareup.okhttp3:okhttp:3.3.0'
+    compile 'com.squareup.okio:okio:1.7.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.2.0'
+    //Rxjava
+    compile 'io.reactivex:rxandroid:1.1.0'
+    compile 'io.reactivex:rxjava:1.1.5'
+    //图片加载
+    compile 'com.squareup.picasso:picasso:2.3.2'
+    //注解
+    compile 'com.jakewharton:butterknife:8.1.0'
+    apt 'com.jakewharton:butterknife-compiler:8.1.0'
+    //GSON
+    compile 'com.google.code.gson:gson:2.2.4'
+    compile 'com.mcxiaoke.volley:library:1.0.19'
+    compile 'com.squareup.okio:okio:1.6.0'
+    //圆形图片
+    compile 'de.hdodenhof:circleimageview:2.0.0'
+    //ORM
+    compile 'com.j256.ormlite:ormlite-android:4.48'
+    compile 'com.j256.ormlite:ormlite-core:4.48'
+    compile files('libs/fastjson-1.2.9.jar')
+    compile project(':utilslibrary')
+    compile 'joda-time:joda-time:2.3'
+    compile 'com.android.support:cardview-v7:26.+'
+    compile 'com.android.support:design:26.+'
+    compile project(':diybuttonlibrary')
+    compile project(':nicedialog')
+    compile project(':customdialoglibrary')
+}

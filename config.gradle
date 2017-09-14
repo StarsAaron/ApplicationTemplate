@@ -1,0 +1,14 @@
+// 全局配置
+ext {
+    gradleVersion = '2.3.3'
+    // Sdk and tools
+    compileSdkVersion = 26
+    buildToolsVersion = '26.0.1'
+    minSdkVersion = 15
+    targetSdkVersion = 26
+
+    // App dependencies
+    v7supportLibraryVersion = '26.+'
+    v13supportLibraryVersion = '26.+'
+    junitVersion = '4.12'
+}

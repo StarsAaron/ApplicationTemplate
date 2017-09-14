@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.aaron.applicationtemplate">
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <application
+        android:name=".global.MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme.NoActionBar"
+        >
+        <activity android:name=".ui.MainActivity"
+                  android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <!-- screenOrientation="portrait" 竖屏 -->
+        <!-- configChanges="orientation|keyboardHidden" 不重建Activity -->
+        <activity
+            android:name=".ui.WelcomeActivity"
+            android:theme="@style/AppTheme.NoActionBar.FullScreen" />
+        <activity android:name=".example.filechoose.FileChooserActivity" />
+        <activity android:name=".example.broadcast.BroadcastTestActivity" />
+        <activity android:name=".ui.DiyButtonActivity" />
+        <activity android:name=".dialog.CustomDialogTestActivity" />
+        <activity android:name=".example.RecyclerViewActivity" />
+        <activity android:name=".example.VolleyTestActivity" />
+        <!-- 静态注册 -->
+        <!-- <receiver android:name=".MyBroadcastReceiver"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="com.example.aaron.myapplication.MyBroadcastReceiver"/> -->
+        <!-- <category android:name="android.intent.category.DEFAULT"/> -->
+        <!-- </intent-filter> -->
+        <!-- </receiver> -->
+    </application>
+
+</manifest>

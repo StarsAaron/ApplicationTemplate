@@ -1,0 +1,21 @@
+
+-- ItemTouchHelperCallback
+需要进行列表项拖动，滑动删除，使用ItemTouchHelper类
+ItemTouchHelperCallback itemTouchHelperCallback = new ItemTouchHelperCallback(mRecyAdapter);
+final ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchHelperCallback);
+itemTouchHelper.attachToRecyclerView(mRecyclerView);
+
+-- OnRecyclerItemClickListener
+mRecyclerView.addOnItemTouchListener(new OnRecyclerItemClickListener(mRecyclerView) {
+            @Override
+            public void onItemClick(RecyclerView.ViewHolder myViewHolder) {
+                RecyAdapter.ViewHolder viewHolder1 = (RecyAdapter.ViewHolder) myViewHolder;
+                String tvString = viewHolder1.mTextView.getText().toString();
+                Toast.makeText(ListViewActivity.this, "逗逗~" + tvString, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onLongClick(RecyclerView.ViewHolder myViewHolder) {
+                Toast.makeText(ListViewActivity.this, "" + "讨厌，不要老是摸人家啦...", Toast.LENGTH_SHORT).show();
+            }
+        });

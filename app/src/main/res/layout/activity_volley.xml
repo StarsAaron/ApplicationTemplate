@@ -1,0 +1,74 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/StringRequest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="String" />
+
+        <Button
+            android:id="@+id/JsonRequest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Json" />
+
+        <Button
+            android:id="@+id/ImageRequest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Image" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/Imageloader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Imageloader" />
+
+        <Button
+            android:id="@+id/btn_networkImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NetworkImageView" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/linearLayout1"
+        android:text="Medium Text"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_launcher" />
+    
+    <com.android.volley.toolbox.NetworkImageView   
+        android:id="@+id/network_image_view"  
+        android:layout_width="200dp"  
+        android:layout_height="200dp"  
+        android:layout_gravity="center_horizontal"  
+        />  
+</LinearLayout>
