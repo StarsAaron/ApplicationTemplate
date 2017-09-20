@@ -25,11 +25,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.customdialoglibrary.effects.BaseEffects;
 import com.customdialoglibrary.view.ProgressWheel;
 import com.customdialoglibrary.view.SuccessTickView;
 
 import java.io.Serializable;
 import java.util.List;
+
+import static android.R.attr.type;
 
 
 /**
@@ -81,6 +84,7 @@ public class CustomDialog extends DialogFragment {
     private String mConfirmText; //确定按钮文字
 
     private boolean mShowCancel; //是否显示取消按钮
+    private boolean mShowConfirm;//是否显示确定按钮
     private boolean mShowContent;// 是否显示内容
     private int mCustomImgDrawableRec;// 自定义图片资源ID
     private int margin;//左右边距
@@ -93,6 +97,9 @@ public class CustomDialog extends DialogFragment {
     private int animStyle; //动画
     @LayoutRes
     protected int layoutId = -1;//布局
+
+    private Effectstype effectstype;//窗口动画
+    private int mDuration = 500;//动画持续时间 500ms
 
     private ViewConvertListener convertListener;//视图初始化监听
     private DialogType dialogType = DialogType.NORMAL_TYPE;//Dialog显示类型
@@ -206,6 +213,13 @@ public class CustomDialog extends DialogFragment {
             //设置dialog进入、退出的动画
             window.setWindowAnimations(animStyle);
             window.setAttributes(lp);
+
+            //动画
+            if(effectstype != null){
+                BaseEffects animator = effectstype.getAnimator();
+                animator.setDuration(Math.abs(mDuration));
+                animator.start(getDialog().getWindow().getDecorView());
+            }
         }
         setCancelable(outCancel);
     }
@@ -493,8 +507,30 @@ public class CustomDialog extends DialogFragment {
      * @param animStyle
      * @return
      */
-    public CustomDialog setAnimStyle(@StyleRes int animStyle) {
+    public CustomDialog setAnimation(@StyleRes int animStyle) {
         this.animStyle = animStyle;
+        return this;
+    }
+
+    /**
+     * 设置窗口内容显示动画
+     * @param effectstype 预制动画效果
+     * @param mDuration 持续时间
+     * @return
+     */
+    public CustomDialog setAnimation(Effectstype effectstype,int mDuration){
+        this.mDuration = mDuration;
+        this.effectstype = effectstype;
+        return this;
+    }
+
+    /**
+     * 设置窗口内容显示动画
+     * @param effectstype
+     * @return
+     */
+    public CustomDialog setAnimation(Effectstype effectstype){
+        this.effectstype = effectstype;
         return this;
     }
 
@@ -595,6 +631,20 @@ public class CustomDialog extends DialogFragment {
     }
 
     /**
+     * 默认布局对话框是否显示确定按钮
+     *
+     * @param isShow
+     * @return
+     */
+    public CustomDialog showConfirmButton(boolean isShow) {
+        mShowConfirm = isShow;
+        if (mConfirmButton != null) {
+            mConfirmButton.setVisibility(mShowConfirm ? View.VISIBLE : View.GONE);
+        }
+        return this;
+    }
+
+    /**
      * 判断默认布局对话框是否显示对话框内容
      *
      * @return
@@ -659,6 +709,7 @@ public class CustomDialog extends DialogFragment {
     public CustomDialog setConfirmText(String text) {
         mConfirmText = text;
         if (mConfirmButton != null && mConfirmText != null) {
+            showConfirmButton(true);
             mConfirmButton.setText(mConfirmText);
         }
         return this;

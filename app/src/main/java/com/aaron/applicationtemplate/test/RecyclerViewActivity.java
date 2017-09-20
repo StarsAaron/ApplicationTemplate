@@ -1,4 +1,4 @@
-package com.aaron.applicationtemplate.example;
+package com.aaron.applicationtemplate.test;
 
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import com.aaron.adapter.recyclerview.wrapper.CommonAdapter;
 import com.aaron.adapter.recyclerview.base.MyViewHolder;
-import com.aaron.adapter.recyclerview.divider.DividerGridItemDecoration;
+import com.aaron.adapter.recyclerview.decoration.DividerGridItemDecoration;
 import com.aaron.adapter.recyclerview.event.ItemTouchHelperCallback;
 import com.aaron.adapter.recyclerview.event.OnRecyclerItemClickListener;
 import com.aaron.applicationtemplate.R;

@@ -1,4 +1,4 @@
-package com.aaron.applicationtemplate.dialog;
+package com.aaron.applicationtemplate.example;
 
 import android.app.Activity;
 import android.content.DialogInterface;

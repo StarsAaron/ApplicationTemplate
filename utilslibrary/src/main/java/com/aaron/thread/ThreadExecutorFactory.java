@@ -1,4 +1,6 @@
-package com.aaron.applicationtemplate.example.thread;
+package com.aaron.thread;
+
+import android.os.Process;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -11,12 +13,10 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 
-import android.os.Process;
-
 /**
  * 根据cpu核心数创建Executor
  */
-public class FBLThreadExecutorFactory {
+public class ThreadExecutorFactory {
 
     /**
      * 任务执行器.

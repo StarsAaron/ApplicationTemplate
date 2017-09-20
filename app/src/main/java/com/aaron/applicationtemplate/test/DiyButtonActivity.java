@@ -1,4 +1,4 @@
-package com.aaron.applicationtemplate.ui;
+package com.aaron.applicationtemplate.test;
 
 import android.app.Activity;
 import android.graphics.Color;

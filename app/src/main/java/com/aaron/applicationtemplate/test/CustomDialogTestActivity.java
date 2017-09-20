@@ -1,4 +1,4 @@
-package com.aaron.applicationtemplate.dialog;
+package com.aaron.applicationtemplate.test;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,7 +12,8 @@ import android.widget.Toast;
 
 import com.aaron.applicationtemplate.R;
 import com.customdialoglibrary.CustomDialog;
-import com.customdialoglibrary.MyDialogFragment;
+import com.customdialoglibrary.Effectstype;
+import com.customdialoglibrary.test.MyDialogFragment;
 import com.customdialoglibrary.ViewHolder;
 
 public class CustomDialogTestActivity extends AppCompatActivity {
@@ -38,7 +39,6 @@ public class CustomDialogTestActivity extends AppCompatActivity {
                         });
                     }
                 })
-                .setDimAmount(0.3f)
                 .setShowBottom(true)
                 .show(getSupportFragmentManager());
     }
@@ -93,7 +93,7 @@ public class CustomDialogTestActivity extends AppCompatActivity {
                 })
                 .setWidth(210)
                 .setOutCancel(false)
-                .setAnimStyle(R.style.EnterExitAnimation)
+                .setAnimation(R.style.EnterExitAnimation)
                 .show(getSupportFragmentManager());
     }
 
@@ -133,6 +133,7 @@ public class CustomDialogTestActivity extends AppCompatActivity {
                         });
                     }
                 })
+//                .setAnimation(Effectstype.SlideBottom)
                 .show(getSupportFragmentManager());
     }
 
@@ -141,6 +142,7 @@ public class CustomDialogTestActivity extends AppCompatActivity {
                 .setDimAmount(0.3f)
                 .setWidth(WindowManager.LayoutParams.WRAP_CONTENT)
                 .setOutCancel(true)
+                .setAnimation(Effectstype.Fall)
                 .show(getSupportFragmentManager());
     }
 
@@ -150,6 +152,7 @@ public class CustomDialogTestActivity extends AppCompatActivity {
                 .setWidth(WindowManager.LayoutParams.WRAP_CONTENT)
                 .setOutCancel(true)
                 .setContentText("It's pretty, isn't it?")
+                .setAnimation(Effectstype.Fliph)
                 .show(getSupportFragmentManager());
     }
 
@@ -160,6 +163,7 @@ public class CustomDialogTestActivity extends AppCompatActivity {
                 .setDimAmount(0.3f)
                 .setWidth(WindowManager.LayoutParams.WRAP_CONTENT)
                 .setOutCancel(true)
+                .setAnimation(Effectstype.Flipv)
                 .show(getSupportFragmentManager());
     }
 
@@ -170,6 +174,7 @@ public class CustomDialogTestActivity extends AppCompatActivity {
                 .setTitleText("Good job!")
                 .setContentText("You clicked the button!")
                 .setOutCancel(true)
+                .setAnimation(Effectstype.Newspager)
                 .show(getSupportFragmentManager());
     }
 
@@ -179,6 +184,7 @@ public class CustomDialogTestActivity extends AppCompatActivity {
                 .setContentText("Won't be able to recover this file!")
                 .setConfirmText("Yes,delete it!")
                 .setWidth(WindowManager.LayoutParams.WRAP_CONTENT)
+                .setAnimation(Effectstype.RotateBottom)
                 .setConfirmClickListener(new CustomDialog.OnDefaultDialogButtonClickListener() {
                     @Override
                     public void onClick(CustomDialog customDialog) {
@@ -199,6 +205,7 @@ public class CustomDialogTestActivity extends AppCompatActivity {
                 .setCancelText("No,cancel!")
                 .setConfirmText("Yes!")
                 .setWidth(WindowManager.LayoutParams.WRAP_CONTENT)
+                .setAnimation(Effectstype.RotateLeft)
                 .setCancelClickListener(new CustomDialog.OnDefaultDialogButtonClickListener() {
                     @Override
                     public void onClick(CustomDialog customDialog) {

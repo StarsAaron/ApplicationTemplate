@@ -2,6 +2,7 @@ package com.aaron.utils;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
@@ -117,8 +118,8 @@ public final class ImageUtils {
      * @param bitmap bitmap对象
      * @return drawable
      */
-    public static Drawable bitmap2Drawable(final Bitmap bitmap) {
-        return bitmap == null ? null : new BitmapDrawable(Utils.getApp().getResources(), bitmap);
+    public static Drawable bitmap2Drawable(Context context,final Bitmap bitmap) {
+        return bitmap == null ? null : new BitmapDrawable(context.getResources(), bitmap);
     }
 
     /**
@@ -138,8 +139,8 @@ public final class ImageUtils {
      * @param bytes 字节数组
      * @return drawable
      */
-    public static Drawable bytes2Drawable(final byte[] bytes) {
-        return bitmap2Drawable(bytes2Bitmap(bytes));
+    public static Drawable bytes2Drawable(Context context,final byte[] bytes) {
+        return bitmap2Drawable(context,bytes2Bitmap(bytes));
     }
 
     /**
@@ -400,8 +401,8 @@ public final class ImageUtils {
      * @param resId 资源id
      * @return bitmap
      */
-    public static Bitmap getBitmap(@DrawableRes final int resId) {
-        return BitmapFactory.decodeResource(Utils.getApp().getResources(), resId);
+    public static Bitmap getBitmap(Context context,@DrawableRes final int resId) {
+        return BitmapFactory.decodeResource(context.getResources(), resId);
     }
 
     /**
@@ -412,13 +413,13 @@ public final class ImageUtils {
      * @param maxHeight 最大高度
      * @return bitmap
      */
-    public static Bitmap getBitmap(@DrawableRes final int resId, final int maxWidth, final int maxHeight) {
+    public static Bitmap getBitmap(Context context,@DrawableRes final int resId, final int maxWidth, final int maxHeight) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
-        BitmapFactory.decodeResource(Utils.getApp().getResources(), resId, options);
+        BitmapFactory.decodeResource(context.getResources(), resId, options);
         options.inSampleSize = calculateInSampleSize(options, maxWidth, maxHeight);
         options.inJustDecodeBounds = false;
-        return BitmapFactory.decodeResource(Utils.getApp().getResources(), resId, options);
+        return BitmapFactory.decodeResource(context.getResources(), resId, options);
     }
 
     /**
@@ -742,10 +743,10 @@ public final class ImageUtils {
      * @param radius 模糊半径
      * @return 模糊后的图片
      */
-    public static Bitmap fastBlur(final Bitmap src,
+    public static Bitmap fastBlur(Context context,final Bitmap src,
                                   @FloatRange(from = 0, to = 1, fromInclusive = false) final float scale,
                                   @FloatRange(from = 0, to = 25, fromInclusive = false) final float radius) {
-        return fastBlur(src, scale, radius, false);
+        return fastBlur(context,src, scale, radius, false);
     }
 
     /**
@@ -758,7 +759,7 @@ public final class ImageUtils {
      * @param recycle 是否回收
      * @return 模糊后的图片
      */
-    public static Bitmap fastBlur(final Bitmap src,
+    public static Bitmap fastBlur(Context context,final Bitmap src,
                                   @FloatRange(from = 0, to = 1, fromInclusive = false) final float scale,
                                   @FloatRange(from = 0, to = 25, fromInclusive = false) final float radius,
                                   boolean recycle) {
@@ -777,7 +778,7 @@ public final class ImageUtils {
         canvas.scale(scale, scale);
         canvas.drawBitmap(scaleBitmap, 0, 0, paint);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            scaleBitmap = renderScriptBlur(scaleBitmap, radius);
+            scaleBitmap = renderScriptBlur(context,scaleBitmap, radius);
         } else {
             scaleBitmap = stackBlur(scaleBitmap, (int) radius, recycle);
         }
@@ -797,12 +798,12 @@ public final class ImageUtils {
      * @return 模糊后的图片
      */
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    public static Bitmap renderScriptBlur(final Bitmap src,
+    public static Bitmap renderScriptBlur(Context context,final Bitmap src,
                                           @FloatRange(from = 0, to = 25, fromInclusive = false) final float radius) {
         if (isEmptyBitmap(src)) return null;
         RenderScript rs = null;
         try {
-            rs = RenderScript.create(Utils.getApp());
+            rs = RenderScript.create(context);
             rs.setMessageHandler(new RenderScript.RSMessageHandler());
             Allocation input = Allocation.createFromBitmap(rs, src, Allocation.MipmapControl.MIPMAP_NONE, Allocation
                     .USAGE_SCRIPT);

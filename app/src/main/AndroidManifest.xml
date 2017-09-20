@@ -30,9 +30,9 @@
             android:theme="@style/AppTheme.NoActionBar.FullScreen" />
         <activity android:name=".example.filechoose.FileChooserActivity" />
         <activity android:name=".example.broadcast.BroadcastTestActivity" />
-        <activity android:name=".ui.DiyButtonActivity" />
-        <activity android:name=".dialog.CustomDialogTestActivity" />
-        <activity android:name=".example.RecyclerViewActivity" />
+        <activity android:name=".test.DiyButtonActivity" />
+        <activity android:name=".test.CustomDialogTestActivity" />
+        <activity android:name=".test.RecyclerViewActivity" />
         <activity android:name=".example.VolleyTestActivity" />
         <!-- 静态注册 -->
         <!-- <receiver android:name=".MyBroadcastReceiver"> -->

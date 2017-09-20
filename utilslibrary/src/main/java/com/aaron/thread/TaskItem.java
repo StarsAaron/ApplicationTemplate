@@ -1,4 +1,4 @@
-package com.aaron.applicationtemplate.example.thread;
+package com.aaron.thread;
 
 import java.util.List;
 import java.util.UUID;
@@ -6,10 +6,10 @@ import java.util.UUID;
 /**
  * 数据执行单位
  */
-public abstract class FBLTaskItem {
+public abstract class TaskItem {
     private int Tag;//任务标识
 
-    public FBLTaskItem() {
+    public TaskItem() {
         Tag = UUID.randomUUID().hashCode();
     }
 

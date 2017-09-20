@@ -1,4 +1,4 @@
-package com.aaron.applicationtemplate.example.thread;
+package com.aaron.thread;
 
 import android.os.Handler;
 import android.os.Message;
@@ -12,12 +12,12 @@ import java.util.concurrent.Executor;
  *
  * 注意：依赖ThreadExecutorFactory.java
  */
-public class FBLTaskThreadPool {
+public class TaskThreadPool {
 
     /**
      * 单例对象 The http pool.
      */
-    private static FBLTaskThreadPool FBLTaskThreadPool = null;
+    private static TaskThreadPool TaskThreadPool = null;
 
     /**
      * 线程执行器.
@@ -31,7 +31,7 @@ public class FBLTaskThreadPool {
     private static Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            FBLTaskItem item = (FBLTaskItem)msg.obj;
+            TaskItem item = (TaskItem)msg.obj;
             item.finished(result.get(item.getTag()));
             result.remove(item.getTag());
         }
@@ -40,26 +40,26 @@ public class FBLTaskThreadPool {
     /**
      * 构造线程池.
      */
-    private FBLTaskThreadPool() {
+    private TaskThreadPool() {
         result = new HashMap<Integer,List<Object>>();
-        mExecutor = FBLThreadExecutorFactory.getExecutor();
+        mExecutor = ThreadExecutorFactory.getExecutor();
     }
 
     /**
      * 单例
      */
-    public static FBLTaskThreadPool getInstance() {
-        if (FBLTaskThreadPool == null) {
-            FBLTaskThreadPool = new FBLTaskThreadPool();
+    public static TaskThreadPool getInstance() {
+        if (TaskThreadPool == null) {
+            TaskThreadPool = new TaskThreadPool();
         }
-        return FBLTaskThreadPool;
+        return TaskThreadPool;
     }
 
     /**
      * 开启线程执行任务
      * @param item
      */
-    public void execute(final FBLTaskItem item) {
+    public void execute(final TaskItem item) {
         mExecutor.execute(new Runnable() {
             public void run() {
                 try {

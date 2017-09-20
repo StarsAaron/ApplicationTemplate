@@ -9,10 +9,11 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.aaron.applicationtemplate.R;
-import com.aaron.applicationtemplate.example.RecyclerViewActivity;
-import com.aaron.applicationtemplate.dialog.CustomDialogTestActivity;
+import com.aaron.applicationtemplate.test.RecyclerViewActivity;
+import com.aaron.applicationtemplate.test.CustomDialogTestActivity;
 import com.aaron.applicationtemplate.example.VolleyTestActivity;
 import com.aaron.applicationtemplate.example.filechoose.FileChooserActivity;
+import com.aaron.applicationtemplate.test.DiyButtonActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

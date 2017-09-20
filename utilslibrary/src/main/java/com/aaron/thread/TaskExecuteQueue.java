@@ -1,4 +1,4 @@
-package com.aaron.applicationtemplate.example.thread;
+package com.aaron.thread;
 
 import android.os.Handler;
 import android.os.Message;
@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.concurrent.Executor;
 
 
-
 /**
  * 一条线程处理一个任务队列
  * 每newInstance一个TaskQueue实例就会在线程池中开辟新线程，该线程一直循环处理队列的任务
@@ -19,12 +18,12 @@ import java.util.concurrent.Executor;
  *
  * 注意：依赖ThreadExecutorFactory.java
  */
-public class FBLTaskExecuteQueue extends Thread {
+public class TaskExecuteQueue extends Thread {
 
     /**
      * 等待执行的任务. 用 LinkedList增删效率高
      */
-    private LinkedList<FBLTaskItem> FBLTaskItemList = null;
+    private LinkedList<TaskItem> TaskItemList = null;
 
     /**
      * 停止的标记.
@@ -38,7 +37,7 @@ public class FBLTaskExecuteQueue extends Thread {
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            FBLTaskItem item = (FBLTaskItem)msg.obj;
+            TaskItem item = (TaskItem)msg.obj;
             item.finished(result.get(item.getTag()));
             result.remove(item.getTag());
         }
@@ -47,11 +46,11 @@ public class FBLTaskExecuteQueue extends Thread {
     /**
      * 构造执行线程队列.
      */
-    public FBLTaskExecuteQueue() {
-        FBLTaskItemList = new LinkedList<FBLTaskItem>();
+    public TaskExecuteQueue() {
+        TaskItemList = new LinkedList<TaskItem>();
         result = new HashMap<Integer,List<Object>>();
         //从线程池中获取
-        Executor mExecutorService = FBLThreadExecutorFactory.getExecutor();
+        Executor mExecutorService = ThreadExecutorFactory.getExecutor();
         mExecutorService.execute(this);
     }
 
@@ -59,7 +58,7 @@ public class FBLTaskExecuteQueue extends Thread {
      * 开始一个执行任务.
      * @param item 执行单位
      */
-    public void execute(FBLTaskItem item) {
+    public void execute(TaskItem item) {
         addTaskItem(item);
     }
 
@@ -69,7 +68,7 @@ public class FBLTaskExecuteQueue extends Thread {
      * @param item   执行单位
      * @param cancel 清空之前的任务
      */
-    public void execute(FBLTaskItem item, boolean cancel) {
+    public void execute(TaskItem item, boolean cancel) {
         if (cancel) {
             cancel(true);
         }
@@ -81,8 +80,8 @@ public class FBLTaskExecuteQueue extends Thread {
      *
      * @param item 执行单位
      */
-    private synchronized void addTaskItem(FBLTaskItem item) {
-        FBLTaskItemList.add(item);
+    private synchronized void addTaskItem(TaskItem item) {
+        TaskItemList.add(item);
         //添加了执行项就激活本线程
         this.notify();
     }
@@ -91,8 +90,8 @@ public class FBLTaskExecuteQueue extends Thread {
     public void run() {
         while (!quit) {
             try {
-                while (FBLTaskItemList.size() > 0) {
-                    FBLTaskItem item = FBLTaskItemList.remove(0);
+                while (TaskItemList.size() > 0) {
+                    TaskItem item = TaskItemList.remove(0);
                     if (item != null) {
                         result.put(item.getTag(), item.execute());
                         //交由UI线程处理
@@ -102,7 +101,7 @@ public class FBLTaskExecuteQueue extends Thread {
                     }
                     //停止后清空
                     if (quit) {
-                        FBLTaskItemList.clear();
+                        TaskItemList.clear();
                         return;
                     }
                 }
@@ -112,11 +111,11 @@ public class FBLTaskExecuteQueue extends Thread {
                         this.wait();
                     }
                 } catch (InterruptedException e) {
-                    LogUtils.i("FBLTaskExecuteQueue", "收到线程中断请求");
+                    LogUtils.i("TaskExecuteQueue", "收到线程中断请求");
                     e.printStackTrace();
                     //被中断的是退出就结束，否则继续
                     if (quit) {
-                        FBLTaskItemList.clear();
+                        TaskItemList.clear();
                         return;
                     }
                     continue;
@@ -145,8 +144,8 @@ public class FBLTaskExecuteQueue extends Thread {
      * 获取当前队列任务列表
      * @return
      */
-    public LinkedList<FBLTaskItem> getFBLTaskItemList() {
-        return FBLTaskItemList;
+    public LinkedList<TaskItem> getTaskItemList() {
+        return TaskItemList;
     }
 
 }

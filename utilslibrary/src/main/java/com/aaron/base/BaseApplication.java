@@ -23,7 +23,7 @@ public class BaseApplication extends Application {
         super.onCreate();
         sInstance = this;
         registerActivityLifecycleCallbacks(mCallbacks);
-        unregisterActivityLifecycleCallbacks(mCallbacks);
+//        unregisterActivityLifecycleCallbacks(mCallbacks);
     }
 
     /**
@@ -33,7 +33,9 @@ public class BaseApplication extends Application {
 
         @Override
         public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-            Log.d(TAG, "onActivityCreated() called with: activity = [" + activity + "], savedInstanceState = [" + savedInstanceState + "]");
+            Log.d(TAG, "onActivityCreated() called with: activity = [" + activity + "]" +
+                    ", savedInstanceState = [" + savedInstanceState + "]");
+            ActivityManager.Instance.addActivity(activity);
         }
 
         @Override
@@ -64,6 +66,7 @@ public class BaseApplication extends Application {
         @Override
         public void onActivityDestroyed(Activity activity) {
             Log.d(TAG, "onActivityDestroyed() called with: activity = [" + activity + "]");
+            ActivityManager.Instance.removeActivity(activity);
         }
     };
 }

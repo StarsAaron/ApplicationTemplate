@@ -1,4 +1,4 @@
-package com.aaron.adapter.recyclerview.divider;
+package com.aaron.adapter.recyclerview.decoration;
 
 import android.content.Context;
 import android.content.res.TypedArray;

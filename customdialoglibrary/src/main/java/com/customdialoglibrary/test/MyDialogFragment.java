@@ -1,4 +1,4 @@
-package com.customdialoglibrary;
+package com.customdialoglibrary.test;
 
 
 import android.app.Dialog;
@@ -12,7 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.customdialoglibrary.R;
+
 /**
+ * 继承DialogFragment 例子
  * Created by Aaron on 2017/9/14.
  */
 public class MyDialogFragment extends DialogFragment {

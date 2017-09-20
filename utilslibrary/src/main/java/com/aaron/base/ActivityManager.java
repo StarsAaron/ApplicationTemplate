@@ -1,9 +1,12 @@
 package com.aaron.base;
 
 import android.app.Activity;
+import android.util.Log;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * 名称：ActivityManager.java
@@ -38,11 +41,22 @@ public enum ActivityManager {
     /**
      * 遍历所有Activity并finish.
      */
-    public void clearAllActivity() {
+    public void exitApp() {
         for (Activity activity : activityList) {
             if (activity != null) {
                 activity.finish();
             }
         }
+
+        // 方式1：android.os.Process.killProcess()
+//        android.os.Process.killProcess(android.os.Process.myPid());
+
+        // 方式2：System.exit()
+        // System.exit() = Java中结束进程的方法：关闭当前JVM虚拟机
+        System.exit(0);
+
+        // System.exit(0)和System.exit(1)的区别
+        // 1. System.exit(0)：正常退出；
+        // 2. System.exit(1)：非正常退出，通常这种退出方式应该放在catch块中。
     }
 }

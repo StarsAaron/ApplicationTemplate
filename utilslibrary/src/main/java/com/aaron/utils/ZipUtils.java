@@ -17,12 +17,7 @@ import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
 /**
- * <pre>
- *     author: Blankj
- *     blog  : http://blankj.com
- *     time  : 2016/08/27
- *     desc  : 压缩相关工具类
- * </pre>
+ * 压缩相关工具类
  */
 public final class ZipUtils {
 

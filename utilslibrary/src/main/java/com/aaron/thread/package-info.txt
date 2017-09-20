@@ -3,13 +3,13 @@
 FBL 异步执行代码块
 
 ###########################################
-FBLTaskExecuteQueue 按照队列的形式一个一个处理任务，一个线程处理一个FBLTaskExecuteQueue
+TaskExecuteQueue 按照队列的形式一个一个处理任务，一个线程处理一个FBLTaskExecuteQueue
 
 使用说明：
 (1)新建任务队列
-FBLTaskExecuteQueue tq = new FBLTaskExecuteQueue();
+TaskExecuteQueue tq = new TaskExecuteQueue();
 (2)执行任务
-tq.execute(new FBLTaskItem() {
+tq.execute(new TaskItem() {
 
             @Override
             public List<Object> execute() {
@@ -26,9 +26,9 @@ tq.execute(new FBLTaskItem() {
 TaskThreadPool
 使用说明：
 (1)获取线程池管理实例
-FBLTaskThreadPool tp = FBLTaskThreadPool.getInstance();
+TaskThreadPool tp = TaskThreadPool.getInstance();
 (2)执行任务
-tp.execute(new FBLTaskItem() {
+tp.execute(new TaskItem() {
             @Override
             public List<Object> execute() {
                 return null;
