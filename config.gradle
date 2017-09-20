@@ -2,16 +2,18 @@
 ext {
     gradleVersion = '2.3.3'
     // Sdk and tools
-    compileSdkVersion = 26
+    compileSdkVersion = 25
     buildToolsVersion = '26.0.1'
     minSdkVersion = 15
-    targetSdkVersion = 26
+    targetSdkVersion = 25
 
     versionCode = 1
     versionName = '1.0'
 
     // App dependencies
-    v7supportLibraryVersion = '26.+'
-    v13supportLibraryVersion = '26.+'
+    v7supportLibraryVersion = '25.+'
+    v13supportLibraryVersion = '25.+'
+    v7supportCardview = '25.+'
     junitVersion = '4.12'
+    supportDesign = '25.+'
 }

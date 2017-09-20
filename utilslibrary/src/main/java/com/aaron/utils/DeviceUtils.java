@@ -29,6 +29,15 @@ public final class DeviceUtils {
     }
 
     /**
+     * 获取手机可用的cpu数
+     *
+     * @return
+     */
+    public static int getAvailableProcessors() {
+        return Runtime.getRuntime().availableProcessors();
+    }
+
+    /**
      * 判断设备是否root
      *
      * @return the boolean{@code true}: 是<br>{@code false}: 否

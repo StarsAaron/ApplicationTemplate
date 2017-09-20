@@ -686,7 +686,7 @@ public final class FileUtils {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            CloseUtils.closeIO(is);
+            CloseStreamUtils.closeIO(is);
         }
         switch (p) {
             case 0xefbb:
@@ -740,7 +740,7 @@ public final class FileUtils {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            CloseUtils.closeIO(is);
+            CloseStreamUtils.closeIO(is);
         }
         return count;
     }
@@ -894,7 +894,7 @@ public final class FileUtils {
         } catch (NoSuchAlgorithmException | IOException e) {
             e.printStackTrace();
         } finally {
-            CloseUtils.closeIO(dis);
+            CloseStreamUtils.closeIO(dis);
         }
         return null;
     }

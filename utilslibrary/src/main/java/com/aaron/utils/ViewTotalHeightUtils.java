@@ -13,10 +13,10 @@ import java.lang.reflect.Field;
  * Created by Aaron on 2017/9/15.
  * <p>
  * 注意，调用完方法自后需要notifyDataSetChanged
- * GetViewSizeUtils.setGridViewHeightBasedOnChildren(mGridView);
+ * ViewTotalHeightUtils.setGridViewHeightBasedOnChildren(mGridView);
  * adapter.notifyDataSetChanged();
  */
-public class GetViewSizeUtils {
+public class ViewTotalHeightUtils {
 
     /**
      * 计算listview高度的代码

@@ -234,21 +234,21 @@ public class CustomDialog extends DialogFragment {
         } else {
             // 默认布局
             view = inflater.inflate(R.layout.dialog_custom, container, false);
-            mTitleTextView = view.findViewById(R.id.title_text);
-            mContentTextView = view.findViewById(R.id.content_text);
-            mErrorFrame = view.findViewById(R.id.error_frame);
-            mErrorX = mErrorFrame.findViewById(R.id.error_x);
-            mSuccessFrame = view.findViewById(R.id.success_frame);
-            mProgressFrame = view.findViewById(R.id.progress_dialog);
-            mSuccessTick = mSuccessFrame.findViewById(R.id.success_tick);
+            mTitleTextView = (TextView)view.findViewById(R.id.title_text);
+            mContentTextView = (TextView)view.findViewById(R.id.content_text);
+            mErrorFrame = (FrameLayout)view.findViewById(R.id.error_frame);
+            mErrorX = (ImageView)mErrorFrame.findViewById(R.id.error_x);
+            mSuccessFrame = (FrameLayout)view.findViewById(R.id.success_frame);
+            mProgressFrame = (FrameLayout)view.findViewById(R.id.progress_dialog);
+            mSuccessTick = (SuccessTickView)mSuccessFrame.findViewById(R.id.success_tick);
             mSuccessLeftMask = mSuccessFrame.findViewById(R.id.mask_left);
             mSuccessRightMask = mSuccessFrame.findViewById(R.id.mask_right);
-            mCustomImage = view.findViewById(R.id.custom_image);
-            mWarningFrame = view.findViewById(R.id.warning_frame);
-            mConfirmButton = view.findViewById(R.id.confirm_button);
-            mCancelButton = view.findViewById(R.id.cancel_button);
-            iv_warning = view.findViewById(R.id.iv_warning);
-            mProgressWheel = view.findViewById(R.id.progressWheel);
+            mCustomImage = (ImageView)view.findViewById(R.id.custom_image);
+            mWarningFrame = (FrameLayout)view.findViewById(R.id.warning_frame);
+            mConfirmButton = (Button)view.findViewById(R.id.confirm_button);
+            mCancelButton = (Button)view.findViewById(R.id.cancel_button);
+            iv_warning = (ImageView)view.findViewById(R.id.iv_warning);
+            mProgressWheel = (ProgressWheel)view.findViewById(R.id.progressWheel);
             mConfirmButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

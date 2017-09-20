@@ -1,4 +1,6 @@
-package com.aaron.utils;
+package com.aaron.utils.encrypt;
+
+import com.aaron.utils.Base64Utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;

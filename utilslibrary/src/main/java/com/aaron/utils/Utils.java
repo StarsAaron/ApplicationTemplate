@@ -6,61 +6,62 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.util.Log;
+
+import com.aaron.base.ActivityManager;
 
 import java.util.LinkedList;
 import java.util.List;
 
 /**
- * <pre>
- *     author: Blankj
- *     blog  : http://blankj.com
- *     time  : 16/12/08
- *     desc  : Utils初始化相关
- * </pre>
+ * 某些工具需要依赖这个类，在Application 初始化
  */
 public final class Utils {
-
+    private static final String TAG = "Utils";
     @SuppressLint("StaticFieldLeak")
     private static Application sApplication;
 
-    static List<Activity> sActivityList = new LinkedList<>();
-    @SuppressLint("StaticFieldLeak")
-    static Activity sTopActivity;
-
+    /**
+     * Activity生命周期回调
+     */
     private static Application.ActivityLifecycleCallbacks mCallbacks = new Application.ActivityLifecycleCallbacks() {
+
         @Override
-        public void onActivityCreated(Activity activity, Bundle bundle) {
-            sActivityList.add(activity);
+        public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+            Log.d(TAG, "onActivityCreated() called with: activity = [" + activity + "]" +
+                    ", savedInstanceState = [" + savedInstanceState + "]");
+            ActivityManager.Instance.addActivity(activity);
         }
 
         @Override
         public void onActivityStarted(Activity activity) {
-
+            Log.d(TAG, "onActivityStarted() called with: activity = [" + activity + "]");
         }
 
         @Override
         public void onActivityResumed(Activity activity) {
-            sTopActivity = activity;
+            Log.d(TAG, "onActivityResumed() called with: activity = [" + activity + "]");
         }
 
         @Override
         public void onActivityPaused(Activity activity) {
-
+            Log.d(TAG, "onActivityPaused() called with: activity = [" + activity + "]");
         }
 
         @Override
         public void onActivityStopped(Activity activity) {
-
+            Log.d(TAG, "onActivityStopped() called with: activity = [" + activity + "]");
         }
 
         @Override
-        public void onActivitySaveInstanceState(Activity activity, Bundle bundle) {
-
+        public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+            Log.d(TAG, "onActivitySaveInstanceState() called with: activity = [" + activity + "], outState = [" + outState + "]");
         }
 
         @Override
         public void onActivityDestroyed(Activity activity) {
-            sActivityList.remove(activity);
+            Log.d(TAG, "onActivityDestroyed() called with: activity = [" + activity + "]");
+            ActivityManager.Instance.removeActivity(activity);
         }
     };
 

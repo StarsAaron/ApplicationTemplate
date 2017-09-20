@@ -154,4 +154,27 @@ public final class ProcessUtils {
         }
         return true;
     }
+
+    /**
+     * 获取正在运行的进程的个数
+     *
+     * @return 进程数量
+     */
+    public static int getRunningProcessCount(Context context) {
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        return am.getRunningAppProcesses().size();
+    }
+
+    /**
+     * 获取系统进程信息
+     *
+     * @param context
+     * @return
+     */
+    public static List<ActivityManager.RunningAppProcessInfo> getRunningProcessInfo(Context context) {
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        return am.getRunningAppProcesses();
+    }
+
+
 }

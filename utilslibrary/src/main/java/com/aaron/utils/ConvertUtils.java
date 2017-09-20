@@ -20,6 +20,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 
+import static com.aaron.utils.ImageUtils.bitmap2Bytes;
+import static com.aaron.utils.ImageUtils.bytes2Bitmap;
+import static com.aaron.utils.ImageUtils.drawable2Bitmap;
+import static com.aaron.utils.StringUtils.isSpace;
+
 /**
  * <pre>
  *     author: Blankj
@@ -256,12 +261,12 @@ public final class ConvertUtils {
     }
 
     /**
-     * bytes转bits
+     * bytes转二进制字符串
      *
      * @param bytes 字节数组
      * @return bits
      */
-    public static String bytes2Bits(final byte[] bytes) {
+    public static String bytes2BitsStr(final byte[] bytes) {
         StringBuilder sb = new StringBuilder();
         for (byte aByte : bytes) {
             for (int j = 7; j >= 0; --j) {
@@ -272,12 +277,12 @@ public final class ConvertUtils {
     }
 
     /**
-     * bits转bytes
+     * 二进制字符串转bytes
      *
      * @param bits 二进制
      * @return bytes
      */
-    public static byte[] bits2Bytes(String bits) {
+    public static byte[] BitsStr2Bytes(String bits) {
         int lenMod = bits.length() % 8;
         int byteLen = bits.length() / 8;
         // 不是8的倍数前面补0
@@ -295,265 +300,6 @@ public final class ConvertUtils {
             }
         }
         return bytes;
-    }
-
-    /**
-     * inputStream转outputStream
-     *
-     * @param is 输入流
-     * @return outputStream子类
-     */
-    public static ByteArrayOutputStream input2OutputStream(final InputStream is) {
-        if (is == null) return null;
-        try {
-            ByteArrayOutputStream os = new ByteArrayOutputStream();
-            byte[] b = new byte[MemoryConstants.KB];
-            int len;
-            while ((len = is.read(b, 0, MemoryConstants.KB)) != -1) {
-                os.write(b, 0, len);
-            }
-            return os;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        } finally {
-            CloseUtils.closeIO(is);
-        }
-    }
-
-    /**
-     * outputStream转inputStream
-     *
-     * @param out 输出流
-     * @return inputStream子类
-     */
-    public ByteArrayInputStream output2InputStream(final OutputStream out) {
-        if (out == null) return null;
-        return new ByteArrayInputStream(((ByteArrayOutputStream) out).toByteArray());
-    }
-
-    /**
-     * inputStream转byteArr
-     *
-     * @param is 输入流
-     * @return 字节数组
-     */
-    public static byte[] inputStream2Bytes(final InputStream is) {
-        if (is == null) return null;
-        return input2OutputStream(is).toByteArray();
-    }
-
-    /**
-     * byteArr转inputStream
-     *
-     * @param bytes 字节数组
-     * @return 输入流
-     */
-    public static InputStream bytes2InputStream(final byte[] bytes) {
-        if (bytes == null || bytes.length <= 0) return null;
-        return new ByteArrayInputStream(bytes);
-    }
-
-    /**
-     * outputStream转byteArr
-     *
-     * @param out 输出流
-     * @return 字节数组
-     */
-    public static byte[] outputStream2Bytes(final OutputStream out) {
-        if (out == null) return null;
-        return ((ByteArrayOutputStream) out).toByteArray();
-    }
-
-    /**
-     * outputStream转byteArr
-     *
-     * @param bytes 字节数组
-     * @return 字节数组
-     */
-    public static OutputStream bytes2OutputStream(final byte[] bytes) {
-        if (bytes == null || bytes.length <= 0) return null;
-        ByteArrayOutputStream os = null;
-        try {
-            os = new ByteArrayOutputStream();
-            os.write(bytes);
-            return os;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        } finally {
-            CloseUtils.closeIO(os);
-        }
-    }
-
-    /**
-     * inputStream转string按编码
-     *
-     * @param is          输入流
-     * @param charsetName 编码格式
-     * @return 字符串
-     */
-    public static String inputStream2String(final InputStream is, final String charsetName) {
-        if (is == null || isSpace(charsetName)) return null;
-        try {
-            return new String(inputStream2Bytes(is), charsetName);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    /**
-     * string转inputStream按编码
-     *
-     * @param string      字符串
-     * @param charsetName 编码格式
-     * @return 输入流
-     */
-    public static InputStream string2InputStream(final String string, final String charsetName) {
-        if (string == null || isSpace(charsetName)) return null;
-        try {
-            return new ByteArrayInputStream(string.getBytes(charsetName));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    /**
-     * outputStream转string按编码
-     *
-     * @param out         输出流
-     * @param charsetName 编码格式
-     * @return 字符串
-     */
-    public static String outputStream2String(final OutputStream out, final String charsetName) {
-        if (out == null || isSpace(charsetName)) return null;
-        try {
-            return new String(outputStream2Bytes(out), charsetName);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    /**
-     * string转outputStream按编码
-     *
-     * @param string      字符串
-     * @param charsetName 编码格式
-     * @return 输入流
-     */
-    public static OutputStream string2OutputStream(final String string, final String charsetName) {
-        if (string == null || isSpace(charsetName)) return null;
-        try {
-            return bytes2OutputStream(string.getBytes(charsetName));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    /**
-     * bitmap转byteArr
-     *
-     * @param bitmap bitmap对象
-     * @param format 格式
-     * @return 字节数组
-     */
-    public static byte[] bitmap2Bytes(final Bitmap bitmap, final Bitmap.CompressFormat format) {
-        if (bitmap == null) return null;
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(format, 100, baos);
-        return baos.toByteArray();
-    }
-
-    /**
-     * byteArr转bitmap
-     *
-     * @param bytes 字节数组
-     * @return bitmap
-     */
-    public static Bitmap bytes2Bitmap(final byte[] bytes) {
-        return (bytes == null || bytes.length == 0) ? null : BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-    }
-
-    /**
-     * drawable转bitmap
-     *
-     * @param drawable drawable对象
-     * @return bitmap
-     */
-    public static Bitmap drawable2Bitmap(final Drawable drawable) {
-        if (drawable instanceof BitmapDrawable) {
-            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
-            if (bitmapDrawable.getBitmap() != null) {
-                return bitmapDrawable.getBitmap();
-            }
-        }
-        Bitmap bitmap;
-        if (drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
-            bitmap = Bitmap.createBitmap(1, 1,
-                    drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565);
-        } else {
-            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(),
-                    drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565);
-        }
-        Canvas canvas = new Canvas(bitmap);
-        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        drawable.draw(canvas);
-        return bitmap;
-    }
-
-    /**
-     * bitmap转drawable
-     *
-     * @param bitmap bitmap对象
-     * @return drawable
-     */
-    public static Drawable bitmap2Drawable(final Bitmap bitmap) {
-        return bitmap == null ? null : new BitmapDrawable(Utils.getApp().getResources(), bitmap);
-    }
-
-    /**
-     * drawable转byteArr
-     *
-     * @param drawable drawable对象
-     * @param format   格式
-     * @return 字节数组
-     */
-    public static byte[] drawable2Bytes(final Drawable drawable, final Bitmap.CompressFormat format) {
-        return drawable == null ? null : bitmap2Bytes(drawable2Bitmap(drawable), format);
-    }
-
-    /**
-     * byteArr转drawable
-     *
-     * @param bytes 字节数组
-     * @return drawable
-     */
-    public static Drawable bytes2Drawable(final byte[] bytes) {
-        return bytes == null ? null : bitmap2Drawable(bytes2Bitmap(bytes));
-    }
-
-    /**
-     * view转Bitmap
-     *
-     * @param view 视图
-     * @return bitmap
-     */
-    public static Bitmap view2Bitmap(final View view) {
-        if (view == null) return null;
-        Bitmap ret = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(ret);
-        Drawable bgDrawable = view.getBackground();
-        if (bgDrawable != null) {
-            bgDrawable.draw(canvas);
-        } else {
-            canvas.drawColor(Color.WHITE);
-        }
-        view.draw(canvas);
-        return ret;
     }
 
     /**
@@ -598,21 +344,5 @@ public final class ConvertUtils {
     public static int px2sp(final float pxValue) {
         final float fontScale = Utils.getApp().getResources().getDisplayMetrics().scaledDensity;
         return (int) (pxValue / fontScale + 0.5f);
-    }
-
-    /**
-     * 判断字符串是否为null或全为空白字符
-     *
-     * @param s 待校验字符串
-     * @return {@code true}: null或全空白字符<br> {@code false}: 不为null且不全空白字符
-     */
-    private static boolean isSpace(final String s) {
-        if (s == null) return true;
-        for (int i = 0, len = s.length(); i < len; ++i) {
-            if (!Character.isWhitespace(s.charAt(i))) {
-                return false;
-            }
-        }
-        return true;
     }
 }

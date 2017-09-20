@@ -1,6 +1,9 @@
 package com.aaron.utils;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
@@ -10,13 +13,16 @@ import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
 import static android.content.Context.LOCATION_SERVICE;
+
 
 /**
  * <pre>
@@ -34,74 +40,87 @@ public final class LocationUtils {
     private static OnLocationChangeListener mListener;
     private static MyLocationListener myLocationListener;
     private static LocationManager mLocationManager;
+    private static long MIN_TIME_BETWEEN_UPDATES = 1000;//1S
+    private static float MIN_DISTANCE_CHANGE_FOR_UPDATES = 20;//米
 
     private LocationUtils() {
         throw new UnsupportedOperationException("u can't instantiate me...");
     }
 
 
-//    /**
-//     * you have to chech for Location Permission before use this method
-//     * add this code <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/> to your Manifest file.
-//     * you have also implement LocationListener and passed it to the method.
-//     *
-//     * @param Context
-//     * @param LocationListener
-//     * @return {@code Location}
-//     */
-//
-//    public static Location getLocation(Context context, LocationListener listener) {
-//        Location location = null;
-//        try {
-//            mLocationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
-//            if (!isLocationEnabled()) {
-//                //no Network and GPS providers is enabled
-//                Toast.makeText(context
-//                        , " you have to open GPS or INTERNET"
-//                        , Toast.LENGTH_LONG)
-//                        .show();
-//            } else {
-//                if (isLocationEnabled()) {
-//                    mLocationManager.requestLocationUpdates(
-//                            LocationManager.NETWORK_PROVIDER,
-//                            MIN_TIME_BETWEEN_UPDATES,
-//                            MIN_DISTANCE_CHANGE_FOR_UPDATES,
-//                            listener);
-//
-//                    if (mLocationManager != null) {
-//                        location = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-//                        if (location != null) {
-//                            mLocationManager.removeUpdates(listener);
-//                            return location;
-//                        }
-//                    }
-//                }
-//                //when GPS is enabled.
-//                if (isGpsEnabled()) {
-//                    if (location == null) {
-//                        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-//                                MIN_TIME_BETWEEN_UPDATES,
-//                                MIN_DISTANCE_CHANGE_FOR_UPDATES,
-//                                listener);
-//
-//                        if (mLocationManager != null) {
-//                            location =
-//                                    mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-//                            if (location != null) {
-//                                mLocationManager.removeUpdates(listener);
-//                                return location;
-//                            }
-//                        }
-//                    }
-//                }
-//
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        return location;
-//    }
+    /**
+     * you have to chech for Location Permission before use this method
+     * add this code <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/> to your Manifest file.
+     * you have also implement LocationListener and passed it to the method.
+     *
+     * @param context
+     * @param listener
+     * @return {@code Location}
+     */
+
+    public static Location getLocation(Context context, LocationListener listener) {
+        Location location = null;
+        try {
+            mLocationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
+            if (!isLocationEnabled()) {
+                //no Network and GPS providers is enabled
+                Toast.makeText(context
+                        , " you have to open GPS or INTERNET"
+                        , Toast.LENGTH_LONG)
+                        .show();
+            } else {
+                if (isLocationEnabled()) {
+                    if (ActivityCompat.checkSelfPermission(context,
+                            Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                            && ActivityCompat.checkSelfPermission(context,
+                            Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        Toast.makeText(context
+                                , "先打开权限"
+                                , Toast.LENGTH_SHORT)
+                                .show();
+
+                        return location;
+                    }
+                    mLocationManager.requestLocationUpdates(
+                            LocationManager.NETWORK_PROVIDER,
+                            MIN_TIME_BETWEEN_UPDATES,
+                            MIN_DISTANCE_CHANGE_FOR_UPDATES,
+                            listener);
+
+                    if (mLocationManager != null) {
+                        location = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                        if (location != null) {
+                            mLocationManager.removeUpdates(listener);
+                            return location;
+                        }
+                    }
+                }
+                //when GPS is enabled.
+                if (isGpsEnabled()) {
+                    if (location == null) {
+                        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                                MIN_TIME_BETWEEN_UPDATES,
+                                MIN_DISTANCE_CHANGE_FOR_UPDATES,
+                                listener);
+
+                        if (mLocationManager != null) {
+                            location =
+                                    mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                            if (location != null) {
+                                mLocationManager.removeUpdates(listener);
+                                return location;
+                            }
+                        }
+                    }
+                }
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return location;
+    }
 
 
     /**
@@ -148,21 +167,26 @@ public final class LocationUtils {
      * @param listener    位置刷新的回调接口
      * @return {@code true}: 初始化成功<br>{@code false}: 初始化失败
      */
-//    public static boolean register(long minTime, long minDistance, OnLocationChangeListener listener) {
-//        if (listener == null) return false;
-//        mLocationManager = (LocationManager) Utils.getContext().getSystemService(LOCATION_SERVICE);
-//        mListener = listener;
-//        if (!isLocationEnabled()) {
-//            Log.d(TAG, "无法定位，请打开定位服务");
-//            return false;
-//        }
-//        String provider = mLocationManager.getBestProvider(getCriteria(), true);
-//        Location location = mLocationManager.getLastKnownLocation(provider);
-//        if (location != null) listener.getLastKnownLocation(location);
-//        if (myLocationListener == null) myLocationListener = new MyLocationListener();
-//        mLocationManager.requestLocationUpdates(provider, minTime, minDistance, myLocationListener);
-//        return true;
-//    }
+    public static boolean register(Context context,long minTime, long minDistance, OnLocationChangeListener listener) {
+        if (listener == null) return false;
+        mLocationManager = (LocationManager) Utils.getContext().getSystemService(LOCATION_SERVICE);
+        mListener = listener;
+        if (!isLocationEnabled()) {
+            Log.d(TAG, "无法定位，请打开定位服务");
+            return false;
+        }
+        String provider = mLocationManager.getBestProvider(getCriteria(), true);
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context
+                , Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Location location = mLocationManager.getLastKnownLocation(provider);
+            if (location != null) listener.getLastKnownLocation(location);
+            if (myLocationListener == null) myLocationListener = new MyLocationListener();
+            mLocationManager.requestLocationUpdates(provider, minTime, minDistance, myLocationListener);
+            return true;
+        }
+        return false;
+    }
 
 
     /**

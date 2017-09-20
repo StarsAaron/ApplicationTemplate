@@ -6,6 +6,8 @@ import android.os.Environment;
 import java.io.File;
 import java.io.IOException;
 
+import static android.R.attr.path;
+
 /**
  * 声音工具
  */
@@ -17,18 +19,23 @@ public class AudioUtils {
 
     /**
      *
-     * @param path 录音保存路径
+     * @param name 录音名
      */
-    public AudioUtils(String path) {
+    public AudioUtils(String name) {
         if (mMediaRecorder == null) {
             mMediaRecorder = new MediaRecorder();
         }
-        this.mPath = sanitizePath(path);
+        this.mPath = sanitizePath(name);
     }
 
-    private String sanitizePath(String path) {
+    /**
+     * 构造保存路径
+     * @param name
+     * @return
+     */
+    private String sanitizePath(String name) {
         return Environment.getExternalStorageDirectory().getAbsolutePath()
-                + "/WifiChat/voiceRecord/" + path + ".amr";
+                + "/voiceRecord/" + name + ".amr";
     }
 
     /**
@@ -71,7 +78,8 @@ public class AudioUtils {
     public double getAmplitude() {
         if (mMediaRecorder != null) {
             return (mMediaRecorder.getMaxAmplitude());
-        } else
+        } else {
             return 0;
+        }
     }
 }

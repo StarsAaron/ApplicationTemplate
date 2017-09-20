@@ -1,6 +1,8 @@
-package com.aaron.utils;
+package com.aaron.utils.encrypt;
 
 import android.util.Base64;
+
+import com.aaron.utils.CloseStreamUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -175,7 +177,7 @@ public final class EncryptUtils {
             e.printStackTrace();
             return null;
         } finally {
-            CloseUtils.closeIO(fis);
+            CloseStreamUtils.closeIO(fis);
         }
     }
 

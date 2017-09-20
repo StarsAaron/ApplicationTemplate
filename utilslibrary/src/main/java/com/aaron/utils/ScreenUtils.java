@@ -20,6 +20,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.aaron.utils.encrypt.AesUtils;
+
 import static android.content.Context.POWER_SERVICE;
 
 /**

@@ -1,4 +1,4 @@
-package com.aaron.applicationtemplate.view;
+package com.aaron.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

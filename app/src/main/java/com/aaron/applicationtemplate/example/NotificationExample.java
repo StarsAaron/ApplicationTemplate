@@ -1,4 +1,4 @@
-package com.aaron.utils;//package com.fastbuildlibrary.utils;
+package com.aaron.applicationtemplate.example;//package com.fastbuildlibrary.utils;
 //
 //import android.annotation.TargetApi;
 //import android.app.Notification;

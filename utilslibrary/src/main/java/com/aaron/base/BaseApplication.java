@@ -1,9 +1,8 @@
 package com.aaron.base;
 
-import android.app.Activity;
 import android.app.Application;
-import android.os.Bundle;
-import android.util.Log;
+
+import com.aaron.utils.Utils;
 
 /**
  * 自定义Application
@@ -22,51 +21,8 @@ public class BaseApplication extends Application {
     public void onCreate() {
         super.onCreate();
         sInstance = this;
-        registerActivityLifecycleCallbacks(mCallbacks);
-//        unregisterActivityLifecycleCallbacks(mCallbacks);
+        Utils.init(this);
     }
 
-    /**
-     * Activity生命周期回调
-     */
-    private ActivityLifecycleCallbacks mCallbacks = new ActivityLifecycleCallbacks() {
 
-        @Override
-        public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-            Log.d(TAG, "onActivityCreated() called with: activity = [" + activity + "]" +
-                    ", savedInstanceState = [" + savedInstanceState + "]");
-            ActivityManager.Instance.addActivity(activity);
-        }
-
-        @Override
-        public void onActivityStarted(Activity activity) {
-            Log.d(TAG, "onActivityStarted() called with: activity = [" + activity + "]");
-        }
-
-        @Override
-        public void onActivityResumed(Activity activity) {
-            Log.d(TAG, "onActivityResumed() called with: activity = [" + activity + "]");
-        }
-
-        @Override
-        public void onActivityPaused(Activity activity) {
-            Log.d(TAG, "onActivityPaused() called with: activity = [" + activity + "]");
-        }
-
-        @Override
-        public void onActivityStopped(Activity activity) {
-            Log.d(TAG, "onActivityStopped() called with: activity = [" + activity + "]");
-        }
-
-        @Override
-        public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-            Log.d(TAG, "onActivitySaveInstanceState() called with: activity = [" + activity + "], outState = [" + outState + "]");
-        }
-
-        @Override
-        public void onActivityDestroyed(Activity activity) {
-            Log.d(TAG, "onActivityDestroyed() called with: activity = [" + activity + "]");
-            ActivityManager.Instance.removeActivity(activity);
-        }
-    };
 }

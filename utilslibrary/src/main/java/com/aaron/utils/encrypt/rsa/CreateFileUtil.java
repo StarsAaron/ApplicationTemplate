@@ -1,4 +1,4 @@
-package com.aaron.utils.rsa;
+package com.aaron.utils.encrypt.rsa;
 
 import java.io.File;
 import java.io.IOException;

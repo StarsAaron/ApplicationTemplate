@@ -1,4 +1,4 @@
-package com.aaron.utils;
+package com.aaron.utils.encrypt;
 
 import java.security.SecureRandom;
 
@@ -8,10 +8,19 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
+/**
+ * AES 加密工具
+ */
 public class AesUtils {
 
     public static final String TAG = "AesUtils";
 
+    /**
+     * 加密
+     * @param seed
+     * @param clearText
+     * @return
+     */
     public static String encrypt(String seed, String clearText) {
         // Log.d(TAG, "加密前的seed=" + seed + ",内容为:" + clearText);
         byte[] result = null;
@@ -27,6 +36,12 @@ public class AesUtils {
 
     }
 
+    /**
+     * 解密
+     * @param seed
+     * @param encrypted
+     * @return
+     */
     public static String decrypt(String seed, String encrypted) {
         // Log.d(TAG, "解密前的seed=" + seed + ",内容为:" + encrypted);
         byte[] rawKey;

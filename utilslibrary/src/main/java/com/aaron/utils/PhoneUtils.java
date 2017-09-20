@@ -8,8 +8,10 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.SystemClock;
+import android.provider.Settings;
 import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.Xml;
 
@@ -17,7 +19,11 @@ import org.xmlpull.v1.XmlSerializer;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 
@@ -33,6 +39,42 @@ public final class PhoneUtils {
 
     private PhoneUtils() {
         throw new UnsupportedOperationException("u can't instantiate me...");
+    }
+
+    /**
+     * 获取手机IP
+     *
+     * @return
+     */
+    public static String getIP() throws SocketException {
+        String ip = "";
+        Enumeration<NetworkInterface> netInterfaces = NetworkInterface.getNetworkInterfaces();
+        while (netInterfaces.hasMoreElements()) {
+            NetworkInterface ni = netInterfaces.nextElement();
+            Enumeration<InetAddress> ips = ni.getInetAddresses();
+            while (ips.hasMoreElements()) {
+                ip = ips.nextElement().getHostAddress();
+            }
+        }
+        return ip;
+    }
+
+    /**
+     * 获取机器ID
+     *
+     * @param context
+     * @return
+     */
+    public static String getDevId(Context context) {
+        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        String devid = telephonyManager.getDeviceId();
+        if (!TextUtils.isEmpty(devid))
+            return devid;
+
+        devid = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+        if (!TextUtils.isEmpty(devid))
+            return devid;
+        return null;
     }
 
     /**
@@ -67,6 +109,20 @@ public final class PhoneUtils {
     public static String getIMSI() {
         TelephonyManager tm = (TelephonyManager) Utils.getApp().getSystemService(Context.TELEPHONY_SERVICE);
         return tm != null ? tm.getSubscriberId() : null;
+    }
+
+    /**
+     * 获取手机号码
+     *
+     * @return
+     */
+    public static String getPhoneNumber(Context context) {
+        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        if (telephonyManager.getLine1Number() == null || telephonyManager.getLine1Number().length() < 11) {
+            return null;
+        } else {
+            return telephonyManager.getLine1Number();
+        }
     }
 
     /**

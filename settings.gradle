@@ -1,1 +1,1 @@
-include ':app', ':utilslibrary', ':diybuttonlibrary', ':nicedialog', ':customdialoglibrary'
+include ':app', ':utilslibrary', ':diybuttonlibrary', ':nicedialoglibrary', ':customdialoglibrary'

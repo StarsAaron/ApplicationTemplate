@@ -1,4 +1,4 @@
-package com.aaron.utils.rsa;
+package com.aaron.utils.encrypt.rsa;
 
 import com.aaron.utils.Base64Utils;
 

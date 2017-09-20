@@ -11,6 +11,8 @@ import android.content.pm.Signature;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
+import com.aaron.utils.encrypt.EncryptUtils;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -178,18 +180,6 @@ public final class AppUtils {
     public static void launchApp(final Activity activity, final String packageName, final int requestCode) {
         if (isSpace(packageName)) return;
         activity.startActivityForResult(IntentUtils.getLaunchAppIntent(packageName), requestCode);
-    }
-
-    /**
-     * 关闭App
-     */
-    public static void exitApp() {
-        List<Activity> activityList = Utils.sActivityList;
-        for (int i = activityList.size() - 1; i >= 0; --i) {
-            activityList.get(i).finish();
-            activityList.remove(i);
-        }
-        System.exit(0);
     }
 
     /**

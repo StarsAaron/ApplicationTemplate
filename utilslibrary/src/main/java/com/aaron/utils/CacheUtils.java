@@ -792,7 +792,7 @@ public class CacheUtils {
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
-                CloseUtils.closeIO(fc);
+                CloseStreamUtils.closeIO(fc);
             }
         }
 
@@ -809,7 +809,7 @@ public class CacheUtils {
                 e.printStackTrace();
                 return null;
             } finally {
-                CloseUtils.closeIO(fc);
+                CloseStreamUtils.closeIO(fc);
             }
         }
 
@@ -884,7 +884,7 @@ public class CacheUtils {
                 e.printStackTrace();
                 return null;
             } finally {
-                CloseUtils.closeIO(oos);
+                CloseStreamUtils.closeIO(oos);
             }
         }
 
@@ -898,7 +898,7 @@ public class CacheUtils {
                 e.printStackTrace();
                 return null;
             } finally {
-                CloseUtils.closeIO(ois);
+                CloseStreamUtils.closeIO(ois);
             }
         }
 

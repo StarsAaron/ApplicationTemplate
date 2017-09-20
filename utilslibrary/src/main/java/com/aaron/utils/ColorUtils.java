@@ -18,6 +18,10 @@ public class ColorUtils {
         return new Random().nextInt(n);
     }
 
+    /**
+     * 获取随机颜色值
+     * @return
+     */
     public static Color getRandomColor(){
         Color color = new Color();
         color.rgb(getRandomNum(255),getRandomNum(255),getRandomNum(255));

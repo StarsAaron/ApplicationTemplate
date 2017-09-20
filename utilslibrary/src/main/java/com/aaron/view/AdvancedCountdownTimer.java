@@ -1,10 +1,9 @@
-package com.aaron.utils;
+package com.aaron.view;
 
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
-import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

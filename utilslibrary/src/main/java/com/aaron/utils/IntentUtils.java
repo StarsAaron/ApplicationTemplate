@@ -22,6 +22,8 @@ import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.aaron.utils.encrypt.AesUtils;
+
 import java.io.File;
 
 /**

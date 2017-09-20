@@ -1,4 +1,4 @@
-package com.aaron.utils;
+package com.aaron.utils.encrypt;
 
 import java.security.MessageDigest;
 
