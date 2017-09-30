@@ -22,6 +22,7 @@ import android.view.WindowManager;
 
 import com.aaron.utils.encrypt.AesUtils;
 
+import static android.content.ContentValues.TAG;
 import static android.content.Context.POWER_SERVICE;
 
 /**
@@ -228,10 +229,10 @@ public final class ScreenUtils {
      * 在onPause 的时候使用mWakeLock.release();释放掉PowerManager
      * @param context
      */
-    public static void keepScreenOn2(Context context){
+    public static void keepScreenOn2(Context context,String Tag){
         PowerManager pManager = ((PowerManager) context.getSystemService(POWER_SERVICE));
         PowerManager.WakeLock mWakeLock = pManager.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK
-                | PowerManager.ON_AFTER_RELEASE, AesUtils.TAG);
+                | PowerManager.ON_AFTER_RELEASE, Tag);
         mWakeLock.acquire();
 //        mWakeLock.release();//在onPause 的时候要释放掉
     }

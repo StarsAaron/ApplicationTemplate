@@ -76,11 +76,11 @@ public class RetrofitHelper {
         public Response intercept(Chain chain) throws IOException {
 
             Request request = chain.request();
-            if (!NetworkUtils.isConnected()) {
+            if (!NetworkUtils.isConnected(context)) {
                 request = request.newBuilder().cacheControl(CacheControl.FORCE_CACHE).build();
             }
             Response originalResponse = chain.proceed(request);
-            if (NetworkUtils.isConnected()) {
+            if (NetworkUtils.isConnected(context)) {
                 String cacheControl = request.cacheControl().toString();
                 return originalResponse.newBuilder().header("Cache-Control", cacheControl).removeHeader("Pragma").build();
             } else {

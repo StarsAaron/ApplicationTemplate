@@ -268,7 +268,6 @@ public final class IntentUtils {
         ResolveInfo resolveInfo = context.getPackageManager().resolveActivity(intent,
                 PackageManager.MATCH_DEFAULT_ONLY);
         if (null == resolveInfo) {
-            Log.e(AesUtils.TAG, "No activity to handle this intent");
             return false;
         }
         return true;
@@ -433,75 +432,87 @@ public final class IntentUtils {
         return contactIcon;
     }
 
-//    /**
-//     * 获取选择照片的Intent
-//     *
-//     * @return
-//     */
-//    public static Intent getPickIntentWithGallery() {
-//        Intent intent = new Intent(Intent.ACTION_PICK);
-//        return intent.setType("image*//*");
-//    }
-//
-//    /**
-//     * 获取从文件中选择照片的Intent
-//     *
-//     * @return
-//     */
-//    public static Intent getPickIntentWithDocuments() {
-//        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-//        return intent.setType("image*//*");
-//    }
-//
-//
-//    public static Intent buildImageGetIntent(final Uri saveTo, final int outputX, final int outputY, final boolean returnData) {
-//        return buildImageGetIntent(saveTo, 1, 1, outputX, outputY, returnData);
-//    }
-//
-//    public static Intent buildImageGetIntent(Uri saveTo, int aspectX, int aspectY,
-//                                             int outputX, int outputY, boolean returnData) {
-//        Intent intent = new Intent();
-//        if (Build.VERSION.SDK_INT < 19) {
-//            intent.setAction(Intent.ACTION_GET_CONTENT);
-//        } else {
-//            intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
-//            intent.addCategory(Intent.CATEGORY_OPENABLE);
-//        }
-//        intent.setType("image*//*");
-//        intent.putExtra("output", saveTo);
-//        intent.putExtra("aspectX", aspectX);
-//        intent.putExtra("aspectY", aspectY);
-//        intent.putExtra("outputX", outputX);
-//        intent.putExtra("outputY", outputY);
-//        intent.putExtra("scale", true);
-//        intent.putExtra("return-data", returnData);
-//        intent.putExtra("outputFormat", Bitmap.CompressFormat.PNG.toString());
-//        return intent;
-//    }
-//
-//    public static Intent buildImageCropIntent(final Uri uriFrom, final Uri uriTo, final int outputX, final int outputY, final boolean returnData) {
-//        return buildImageCropIntent(uriFrom, uriTo, 1, 1, outputX, outputY, returnData);
-//    }
-//
-//    public static Intent buildImageCropIntent(Uri uriFrom, Uri uriTo, int aspectX, int aspectY,
-//                                              int outputX, int outputY, boolean returnData) {
-//        Intent intent = new Intent("com.android.camera.action.CROP");
-//        intent.setDataAndType(uriFrom, "image*//*");
-//        intent.putExtra("crop", "true");
-//        intent.putExtra("output", uriTo);
-//        intent.putExtra("aspectX", aspectX);
-//        intent.putExtra("aspectY", aspectY);
-//        intent.putExtra("outputX", outputX);
-//        intent.putExtra("outputY", outputY);
-//        intent.putExtra("scale", true);
-//        intent.putExtra("return-data", returnData);
-//        intent.putExtra("outputFormat", Bitmap.CompressFormat.PNG.toString());
-//        return intent;
-//    }
-//
-//    public static Intent buildImageCaptureIntent(final Uri uri) {
-//        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-//        return intent;
-//    }
+    /**
+     * 获取选择照片的Intent
+     *
+     * @return
+     */
+    public static Intent getPickIntentWithGallery() {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        return intent.setType("image*//*");
+    }
+
+    /**
+     * 获取从文件中选择照片的Intent
+     *
+     * @return
+     */
+    public static Intent getPickIntentWithDocuments() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        return intent.setType("image*//*");
+    }
+
+
+    public static Intent buildImageGetIntent(final Uri saveTo, final int outputX, final int outputY, final boolean returnData) {
+        return buildImageGetIntent(saveTo, 1, 1, outputX, outputY, returnData);
+    }
+
+    public static Intent buildImageGetIntent(Uri saveTo, int aspectX, int aspectY,
+                                             int outputX, int outputY, boolean returnData) {
+        Intent intent = new Intent();
+        if (Build.VERSION.SDK_INT < 19) {
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+        } else {
+            intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+        }
+        intent.setType("image*//*");
+        intent.putExtra("output", saveTo);
+        intent.putExtra("aspectX", aspectX);
+        intent.putExtra("aspectY", aspectY);
+        intent.putExtra("outputX", outputX);
+        intent.putExtra("outputY", outputY);
+        intent.putExtra("scale", true);
+        intent.putExtra("return-data", returnData);
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.PNG.toString());
+        return intent;
+    }
+
+    public static Intent buildImageCropIntent(final Uri uriFrom, final Uri uriTo, final int outputX, final int outputY, final boolean returnData) {
+        return buildImageCropIntent(uriFrom, uriTo, 1, 1, outputX, outputY, returnData);
+    }
+
+    /**
+     * 截取图片
+     *
+     */
+    public static Intent buildImageCropIntent(Uri uriFrom, Uri uriTo, int aspectX, int aspectY,
+                                              int outputX, int outputY, boolean returnData) {
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(uriFrom, "image*//*");
+        intent.putExtra("crop", "true");
+        intent.putExtra("output", uriTo);
+        intent.putExtra("aspectX", aspectX);
+        intent.putExtra("aspectY", aspectY);
+        intent.putExtra("outputX", outputX);
+        intent.putExtra("outputY", outputY);
+        intent.putExtra("scale", true);
+        intent.putExtra("return-data", returnData);
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.PNG.toString());
+        return intent;
+    }
+
+    public static Intent buildImageCaptureIntent(final Uri uri) {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+        return intent;
+    }
+
+    /**
+     * 打开网络设置界面
+     */
+    public static Intent getWirelessSettingsIntent() {
+        return new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS)
+                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    }
 }

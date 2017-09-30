@@ -16,7 +16,8 @@
             style="@style/TextStyle"
             android:paddingBottom="12dp"
             android:paddingTop="12dp"
-            android:text="设置备注及标签" />
+            android:text="设置备注及标签"
+            />
 
         <TextView
             style="@style/TextStyle"

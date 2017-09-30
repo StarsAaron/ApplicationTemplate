@@ -33,8 +33,8 @@
         <item name="android:backgroundDimEnabled">false</item><!--模糊-->
         <item name="android:windowContentOverlay">@null</item>
     </style>
-	
-	<!--对话框样式-->
+
+    <!--对话框样式-->
     <style name="dialog" parent="android:Theme.Dialog">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFrame">@null</item>
@@ -66,4 +66,8 @@
         <item name="android:windowExitAnimation">@anim/exit_anim</item>
     </style>
 
+    <style name="TextStyle">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
 </resources>

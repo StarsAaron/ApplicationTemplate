@@ -27,4 +27,9 @@
         <item name="android:windowExitAnimation">@anim/window_exit_anim</item>
     </style>
 
+    <style name="DefaultAnimation2" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/enter_anim</item>
+        <item name="android:windowExitAnimation">@anim/exit_anim</item>
+    </style>
+
 </resources>

@@ -11,11 +11,14 @@ import android.content.pm.Signature;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
-import com.aaron.utils.encrypt.EncryptUtils;
+import com.aaron.utils.encrypt.MdEncryptUtils;
+import com.aaron.utils.encrypt.ShaUtils;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.aaron.utils.encrypt.ShaUtils.encryptSHA1ToString;
 
 /**
  * <pre>
@@ -445,7 +448,7 @@ public final class AppUtils {
     public static String getAppSignatureSHA1(final String packageName) {
         Signature[] signature = getAppSignature(packageName);
         if (signature == null) return null;
-        return EncryptUtils.encryptSHA1ToString(signature[0].toByteArray()).
+        return ShaUtils.encryptSHA1ToString(signature[0].toByteArray()).
                 replaceAll("(?<=[0-9A-F]{2})[0-9A-F]{2}", ":$0");
     }
 

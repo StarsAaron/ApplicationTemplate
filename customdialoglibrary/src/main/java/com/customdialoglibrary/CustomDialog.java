@@ -94,7 +94,7 @@ public class CustomDialog extends DialogFragment {
     private boolean showBottom;//是否底部显示
     private boolean outCancel = true;//是否点击外部取消
     @StyleRes
-    private int animStyle; //动画
+    private int animStyle = R.style.DefaultAnimation; //默认是弹性泡泡动画
     @LayoutRes
     protected int layoutId = -1;//布局
 
@@ -182,14 +182,6 @@ public class CustomDialog extends DialogFragment {
             WindowManager.LayoutParams lp = window.getAttributes();
             //调节灰色背景透明度[0-1]，默认0.5f
             lp.dimAmount = dimAmount;
-            //是否在底部显示
-            if (showBottom) {
-                lp.gravity = Gravity.BOTTOM;
-                if (animStyle == 0) {
-                    animStyle = R.style.DefaultAnimation;
-                }
-            }
-
             //设置dialog宽度
             if (width == 0) {//默认跟屏幕等宽
                 lp.width = getScreenWidth(getContext()) - 2 * dp2px(margin);
@@ -209,17 +201,22 @@ public class CustomDialog extends DialogFragment {
             } else {// 如果设置了高度值，显示高度减去边距
                 lp.height = dp2px(height);
             }
+            //是否在底部显示
+            if (showBottom) {
+                lp.gravity = Gravity.BOTTOM;
+                animStyle = R.style.DefaultAnimation2;//如果显示在底部，设置向上拉出动画
+            }
 
-            //设置dialog进入、退出的动画
-            window.setWindowAnimations(animStyle);
-            window.setAttributes(lp);
-
-            //动画
+            //优先使用effectstype动画
             if(effectstype != null){
                 BaseEffects animator = effectstype.getAnimator();
                 animator.setDuration(Math.abs(mDuration));
                 animator.start(getDialog().getWindow().getDecorView());
+            }else{
+                //设置dialog进入、退出的动画
+                window.setWindowAnimations(animStyle);
             }
+            window.setAttributes(lp);
         }
         setCancelable(outCancel);
     }

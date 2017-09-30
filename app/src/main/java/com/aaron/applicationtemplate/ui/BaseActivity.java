@@ -14,15 +14,12 @@ import android.view.WindowManager;
 import com.aaron.applicationtemplate.BaseContract;
 import com.aaron.applicationtemplate.R;
 import com.aaron.applicationtemplate.RxPresenter;
-import com.aaron.applicationtemplate.global.MyApplication;
 import com.aaron.base.ActivityManager;
 import com.aaron.utils.StatusBarColorUtils;
 import com.aaron.utils.klog.KLog;
-import com.othershe.nicedialog.NiceDialog;
-import com.othershe.nicedialog.ViewConvertListener;
-import com.othershe.nicedialog.ViewHolder;
+import com.customdialoglibrary.CustomDialog;
+import com.customdialoglibrary.Effectstype;
 
-import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 /**
@@ -315,19 +312,12 @@ public abstract class BaseActivity <V extends BaseContract.BaseView, T extends R
 //        builder.show();
 //        AlertDialog alertDialog = builder.show();
 //        alertDialog.setCanceledOnTouchOutside(true);
-
-        NiceDialog.init()
-                .setLayoutId(R.layout.confirm_layout)
-                .setDimAmount(0)
-                .setMargin(60)
+        CustomDialog.init(CustomDialog.DialogType.ERROR_TYPE)
+                .setTitleText(title)
+                .setContentText(message)
+                .setWidth(WindowManager.LayoutParams.WRAP_CONTENT)
                 .setOutCancel(true)
-                .setConvertListener(new ViewConvertListener() {
-                    @Override
-                    public void convertView(ViewHolder holder, final NiceDialog dialog) {
-                        holder.setText(R.id.title, title);
-                        holder.setText(R.id.message, message);
-                    }
-                })
+                .setAnimation(Effectstype.Flipv)
                 .show(getSupportFragmentManager());
     }
 }

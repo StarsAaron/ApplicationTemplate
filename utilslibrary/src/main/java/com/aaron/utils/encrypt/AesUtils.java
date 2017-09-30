@@ -8,118 +8,112 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
+import static com.aaron.utils.ConvertUtils.bytes2HexString;
+import static com.aaron.utils.ConvertUtils.hexString2Bytes;
+import static com.aaron.utils.EncodeUtils.base64Decode;
+import static com.aaron.utils.EncodeUtils.base64Encode;
+
 /**
  * AES 加密工具
  */
 public class AesUtils {
+    /**
+     * AES转变
+     * <p>法算法名称/加密模式/填充方式</p>
+     * <p>加密模式有：电子密码本模式ECB、加密块链模式CBC、加密反馈模式CFB、输出反馈模式OFB</p>
+     * <p>填充方式有：NoPadding、ZerosPadding、PKCS5Padding</p>
+     */
+    public static String AES_Transformation = "AES/ECB/PKCS5Padding";
+    private static final String AES_Algorithm = "AES";
 
-    public static final String TAG = "AesUtils";
 
     /**
-     * 加密
-     * @param seed
-     * @param clearText
-     * @return
+     * AES加密后转为Base64编码
+     *
+     * @param data 明文
+     * @param key  16、24、32字节秘钥
+     * @return Base64密文
      */
-    public static String encrypt(String seed, String clearText) {
-        // Log.d(TAG, "加密前的seed=" + seed + ",内容为:" + clearText);
-        byte[] result = null;
-        try {
-            byte[] rawkey = getRawKey(seed.getBytes());
-            result = encrypt(rawkey, clearText.getBytes());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        String content = toHex(result);
-        // Log.d(TAG, "加密后的内容为:" + content);
-        return content;
-
+    public static byte[] encryptAES2Base64(final byte[] data, final byte[] key) {
+        return base64Encode(encryptAES(data, key));
     }
 
     /**
-     * 解密
-     * @param seed
-     * @param encrypted
-     * @return
+     * AES加密后转为16进制
+     *
+     * @param data 明文
+     * @param key  16、24、32字节秘钥
+     * @return 16进制密文
      */
-    public static String decrypt(String seed, String encrypted) {
-        // Log.d(TAG, "解密前的seed=" + seed + ",内容为:" + encrypted);
-        byte[] rawKey;
+    public static String encryptAES2HexString(final byte[] data, final byte[] key) {
+        return bytes2HexString(encryptAES(data, key));
+    }
+
+    /**
+     * AES加密
+     *
+     * @param data 明文
+     * @param key  16、24、32字节秘钥
+     * @return 密文
+     */
+    public static byte[] encryptAES(final byte[] data, final byte[] key) {
+        return desTemplate(data, key, AES_Algorithm, AES_Transformation, true);
+    }
+
+    /**
+     * AES解密Base64编码密文
+     *
+     * @param data Base64编码密文
+     * @param key  16、24、32字节秘钥
+     * @return 明文
+     */
+    public static byte[] decryptBase64AES(final byte[] data, final byte[] key) {
+        return decryptAES(base64Decode(data), key);
+    }
+
+    /**
+     * AES解密16进制密文
+     *
+     * @param data 16进制密文
+     * @param key  16、24、32字节秘钥
+     * @return 明文
+     */
+    public static byte[] decryptHexStringAES(final String data, final byte[] key) {
+        return decryptAES(hexString2Bytes(data), key);
+    }
+
+    /**
+     * AES解密
+     *
+     * @param data 密文
+     * @param key  16、24、32字节秘钥
+     * @return 明文
+     */
+    public static byte[] decryptAES(final byte[] data, final byte[] key) {
+        return desTemplate(data, key, AES_Algorithm, AES_Transformation, false);
+    }
+
+    /**
+     * DES加密模板
+     *
+     * @param data           数据
+     * @param key            秘钥
+     * @param algorithm      加密算法
+     * @param transformation 转变
+     * @param isEncrypt      {@code true}: 加密 {@code false}: 解密
+     * @return 密文或者明文，适用于DES，3DES，AES
+     */
+    public static byte[] desTemplate(final byte[] data, final byte[] key, final String algorithm, final String transformation, final boolean isEncrypt) {
+        if (data == null || data.length == 0 || key == null || key.length == 0) return null;
         try {
-            rawKey = getRawKey(seed.getBytes());
-            byte[] enc = toByte(encrypted);
-            byte[] result = decrypt(rawKey, enc);
-            String coentn = new String(result);
-            // Log.d(TAG, "解密后的内容为:" + coentn);
-            return coentn;
-        } catch (Exception e) {
+            SecretKeySpec keySpec = new SecretKeySpec(key, algorithm);
+            Cipher cipher = Cipher.getInstance(transformation);
+            SecureRandom random = new SecureRandom();
+            cipher.init(isEncrypt ? Cipher.ENCRYPT_MODE : Cipher.DECRYPT_MODE, keySpec, random);
+            return cipher.doFinal(data);
+        } catch (Throwable e) {
             e.printStackTrace();
             return null;
         }
-
-    }
-
-    private static byte[] getRawKey(byte[] seed) throws Exception {
-        KeyGenerator kgen = KeyGenerator.getInstance("AES");
-        SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
-        sr.setSeed(seed);
-        kgen.init(128, sr);
-        SecretKey sKey = kgen.generateKey();
-        byte[] raw = sKey.getEncoded();
-
-        return raw;
-    }
-
-    private static byte[] encrypt(byte[] raw, byte[] clear) throws Exception {
-        SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
-//	        Cipher cipher = Cipher.getInstance("AES");
-        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-        cipher.init(Cipher.ENCRYPT_MODE, skeySpec, new IvParameterSpec(
-                new byte[cipher.getBlockSize()]));
-        byte[] encrypted = cipher.doFinal(clear);
-        return encrypted;
-    }
-
-    private static byte[] decrypt(byte[] raw, byte[] encrypted)
-            throws Exception {
-        SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
-//	        Cipher cipher = Cipher.getInstance("AES");
-        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-        cipher.init(Cipher.DECRYPT_MODE, skeySpec, new IvParameterSpec(
-                new byte[cipher.getBlockSize()]));
-        byte[] decrypted = cipher.doFinal(encrypted);
-        return decrypted;
-    }
-
-    public static String toHex(String txt) {
-        return toHex(txt.getBytes());
-    }
-
-    public static String fromHex(String hex) {
-        return new String(toByte(hex));
-    }
-
-    public static byte[] toByte(String hexString) {
-        int len = hexString.length() / 2;
-        byte[] result = new byte[len];
-        for (int i = 0; i < len; i++)
-            result[i] = Integer.valueOf(hexString.substring(2 * i, 2 * i + 2),
-                    16).byteValue();
-        return result;
-    }
-
-    public static String toHex(byte[] buf) {
-        if (buf == null)
-            return "";
-        StringBuffer result = new StringBuffer(2 * buf.length);
-        for (int i = 0; i < buf.length; i++) {
-            appendHex(result, buf[i]);
-        }
-        return result.toString();
-    }
-
-    private static void appendHex(StringBuffer sb, byte b) {
-        final String HEX = "0123456789ABCDEF";
-        sb.append(HEX.charAt((b >> 4) & 0x0f)).append(HEX.charAt(b & 0x0f));
     }
 }

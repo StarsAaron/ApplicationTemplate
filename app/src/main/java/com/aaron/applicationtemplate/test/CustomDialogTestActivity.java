@@ -108,33 +108,33 @@ public class CustomDialogTestActivity extends AppCompatActivity {
     }
 
     public void showDialog5(View view) {
-        CustomDialog.init(CustomDialog.DialogType.CUSTOM_VIEW_TYPE)
-                .setLayoutId(R.layout.confirm_layout)
-                .setDimAmount(0.3f)
-                .setWidth(210)
-                .setOutCancel(false)
-                .setConvertListener(new CustomDialog.ViewConvertListener() {
-                    @Override
-                    public void convertView(com.customdialoglibrary.ViewHolder holder, final CustomDialog customDialog) {
-                        holder.setText(R.id.title, "提示");
-                        holder.setText(R.id.message, "简单提示框");
-                        holder.setOnClickListener(R.id.cancel, new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                customDialog.dismiss();
-                            }
-                        });
-
-                        holder.setOnClickListener(R.id.ok, new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                customDialog.dismiss();
-                            }
-                        });
-                    }
-                })
-//                .setAnimation(Effectstype.SlideBottom)
-                .show(getSupportFragmentManager());
+//        CustomDialog.init(CustomDialog.DialogType.CUSTOM_VIEW_TYPE)
+//                .setLayoutId(R.layout.confirm_layout)
+//                .setDimAmount(0.3f)
+//                .setWidth(210)
+//                .setOutCancel(false)
+//                .setConvertListener(new CustomDialog.ViewConvertListener() {
+//                    @Override
+//                    public void convertView(com.customdialoglibrary.ViewHolder holder, final CustomDialog customDialog) {
+//                        holder.setText(R.id.title, "提示");
+//                        holder.setText(R.id.message, "简单提示框");
+//                        holder.setOnClickListener(R.id.cancel, new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View v) {
+//                                customDialog.dismiss();
+//                            }
+//                        });
+//
+//                        holder.setOnClickListener(R.id.ok, new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View v) {
+//                                customDialog.dismiss();
+//                            }
+//                        });
+//                    }
+//                })
+////                .setAnimation(Effectstype.SlideBottom)
+//                .show(getSupportFragmentManager());
     }
 
     public void showDialog6(View view) {
